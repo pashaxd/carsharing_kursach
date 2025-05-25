@@ -1,1 +1,40 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"carsharing-81beb","appId":"1:474897825201:android:fd781173c0874dfc20d190","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"carsharing-81beb","appId":"1:474897825201:ios:1caaa09196ab735220d190","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"carsharing-81beb","appId":"1:474897825201:ios:1caaa09196ab735220d190","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"carsharing-81beb","configurations":{"android":"1:474897825201:android:fd781173c0874dfc20d190","ios":"1:474897825201:ios:1caaa09196ab735220d190","macos":"1:474897825201:ios:1caaa09196ab735220d190","web":"1:474897825201:web:f2f50ef2c1d4d16b20d190"}}}}}}
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "carsharing-81beb",
+                    "appId": "1:474897825201:android:fd781173c0874dfc20d190",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "carsharing-81beb",
+                    "appId": "1:474897825201:ios:1caaa09196ab735220d190",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "macos": {
+                "default": {
+                    "projectId": "carsharing-81beb",
+                    "appId": "1:474897825201:ios:1caaa09196ab735220d190",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "macos/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "carsharing-81beb",
+                    "configurations": {
+                        "android": "1:474897825201:android:fd781173c0874dfc20d190",
+                        "ios": "1:474897825201:ios:1caaa09196ab735220d190",
+                        "macos": "1:474897825201:ios:1caaa09196ab735220d190",
+                        "web": "1:474897825201:web:f2f50ef2c1d4d16b20d190"
+                    }
+                }
+            }
+        }
+    }
+}

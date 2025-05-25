@@ -45,5 +45,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Это приложение требует доступ к местоположению для поиска ближайших автомобилей</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Это приложение требует доступ к местоположению для поиска ближайших автомобилей</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Это приложение требует доступ к местоположению для поиска ближайших автомобилей</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 </dict>
 </plist>

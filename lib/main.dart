@@ -1,8 +1,23 @@
+import 'package:carsharing_kursach/features/auth_feature%20copy/presentation/controller/auth_controller.dart';
+import 'package:carsharing_kursach/features/auth_feature%20copy/presentation/screen/auth_screen.dart';
+import 'package:carsharing_kursach/features/main_feature%20copy/presentation/screen/main_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:carsharing_kursach/services/location_service.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    print('Error initializing Firebase: $e');
+  }
+
+  // Инициализация сервисов
+  await Get.putAsync(() => LocationService().init());
+
   runApp(const MyApp());
 }
 
@@ -36,77 +51,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Карта'), centerTitle: true),
-        body: Stack(
-          children: [
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              markers: {
-                Marker(
-                  markerId: const MarkerId("center"),
-                  position: _center,
-                  infoWindow: const InfoWindow(title: "Москва"),
-                ),
-              },
-            ),
-            if (_isMapLoading) const Center(child: CircularProgressIndicator()),
-            if (_errorMessage != null)
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                        size: 48,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        _errorMessage!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _errorMessage = null;
-                            _isMapLoading = true;
-                          });
-                        },
-                        child: const Text('Повторить'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-          ],
-        ),
+      home: GetBuilder<AuthController>(
+        init: AuthController(),
+        builder: (controller) {
+          return Obx(
+            () => controller.user.value != null ? MainScreen() : AuthScreen(),
+          );
+        },
       ),
+      defaultTransition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 200),
     );
   }
 }

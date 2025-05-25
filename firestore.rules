@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /cars/{carId} {
+      allow read: if true;  // Allow anyone to read car data
+      allow write: if request.auth != null;  // Only authenticated users can write
+    }
+  }
+} 
