@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.example.carsharing_kursach"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = 27.0.0
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

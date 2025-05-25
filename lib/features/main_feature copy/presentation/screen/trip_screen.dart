@@ -1,6 +1,8 @@
 import 'package:carsharing_kursach/features/main_feature%20copy/data/car_info_model.dart';
 import 'package:carsharing_kursach/features/main_feature%20copy/presentation/controller/main_controller.dart';
 import 'package:carsharing_kursach/features/main_feature%20copy/presentation/screen/main_screen.dart';
+import 'package:carsharing_kursach/features/profile_feature/data/trip_history_model.dart';
+import 'package:carsharing_kursach/features/profile_feature/presentation/controller/profile_controller.dart';
 import 'package:carsharing_kursach/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +13,7 @@ class TripScreen extends StatelessWidget {
   TripScreen({super.key, required this.car});
   final LocationService locationService = Get.find<LocationService>();
   final MainController tripController = Get.put(MainController());
-
+  final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +72,15 @@ class TripScreen extends StatelessWidget {
                           : Obx(
                             () => GestureDetector(
                               onTap: () {
+                                profileController.addTrip(
+                                  TripHistoryModel(
+                                    carName: car.name,
+                                    carImage: car.image,
+                                    price: car.price,
+                                    duration: tripController.seconds.value,
+                                  ),
+                                );
+                                tripController.resetTimer();
                                 if (locationService.currentPosition.value !=
                                     null) {
                                   final position =
@@ -80,7 +91,7 @@ class TripScreen extends StatelessWidget {
                                     position.latitude,
                                   );
                                 }
-                                Get.off(MainScreen());
+                                Get.offAll(() => MainScreen());
                               },
                               child: Container(
                                 width: 200,

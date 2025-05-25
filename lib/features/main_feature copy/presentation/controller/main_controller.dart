@@ -3,12 +3,15 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:carsharing_kursach/features/main_feature%20copy/data/car_info_model.dart';
 import 'package:carsharing_kursach/features/main_feature%20copy/data/main_repo.dart';
+import 'package:carsharing_kursach/features/profile_feature/data/trip_history_model.dart';
+import 'package:carsharing_kursach/features/profile_feature/presentation/controller/profile_controller.dart';
 import 'dart:async';
 
 enum TripStatus { notStarted, inProgress, completed }
 
 class MainController extends GetxController {
   final MainRepository _repository = MainRepository();
+  final ProfileController _profileController = Get.put(ProfileController());
 
   // Observable переменные
   final RxList<CarInfoModel> cars = <CarInfoModel>[].obs;
@@ -22,6 +25,7 @@ class MainController extends GetxController {
   final RxBool isTimerRunning = false.obs;
   final RxInt seconds = 0.obs;
   Timer? _timer;
+  DateTime? _tripStartTime;
 
   // Геттер для форматированного времени
   String get formattedTime {
@@ -36,6 +40,7 @@ class MainController extends GetxController {
     if (!isTimerRunning.value) {
       isTimerRunning.value = true;
       tripStatus.value = TripStatus.inProgress;
+      _tripStartTime = DateTime.now();
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         seconds.value++;
       });
@@ -47,6 +52,19 @@ class MainController extends GetxController {
       isTimerRunning.value = false;
       tripStatus.value = TripStatus.completed;
       _timer?.cancel();
+
+      // Сохраняем историю поездки
+      // if (_tripStartTime != null && selectedCar.value != null) {
+      //   final trip = TripHistoryModel(
+      //     carName: selectedCar.value!.name,
+      //     carImage: selectedCar.value!.image,
+      //     price: selectedCar.value!.price,
+      //     duration: seconds.value,
+      //     startTime: _tripStartTime!,
+      //     endTime: DateTime.now(),
+      //   );
+      //   _profileController.addTrip(trip);
+      // }
     }
   }
 
@@ -54,6 +72,7 @@ class MainController extends GetxController {
     stopTimer();
     seconds.value = 0;
     tripStatus.value = TripStatus.notStarted;
+    _tripStartTime = null;
   }
 
   @override
@@ -129,7 +148,12 @@ class MainController extends GetxController {
   // Выбор машины
   void selectCar(CarInfoModel car) {
     selectedCar.value = car;
-    Get.bottomSheet(CarInfoBottom(carInfo: car));
+    Get.bottomSheet(
+      CarInfoBottom(carInfo: car),
+      isScrollControlled: true,
+      enableDrag: true,
+      isDismissible: true,
+    );
     update();
   }
 
